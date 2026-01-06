@@ -1,23 +1,27 @@
-# ratio-spoof
-Ratio-spoof is a cross-platform, free and open source tool to spoof the download/upload amount on private bittorrent trackers.
-
-![](./assets/demo.gif)
-
-## Motivation
-Here in Brazil, not everybody has a great upload speed, and most private trackers require a ratio greater than or equal to 1. For example, if you downloaded 1GB, you must also upload 1GB in order to survive. Additionally, I have always been fascinated by the BitTorrent protocol. In fact, [I even made a BitTorrent web client to learn more about it](https://github.com/ap-pauloafonso/rwTorrent). So, if you have a bad internet connection, feel free to use this tool. Otherwise, please consider seeding the files with a real torrent client.
-
-## How does it work?
-![Diagram](./assets/how-it-works.png)
-Bittorrent protocol works in such a way that there is no way that a tracker knows how much certain peer have downloaded or uploaded, so the tracker depends on the peer itself telling the amounts.
-
-Ratio-spoof acts like a normal bittorrent client but without downloading or uploading anything, in fact it just tricks the tracker pretending that.
+## Purpose
+This fork is meant to provide a dockerized version of the project. It also have the following changes compare to the original commit :
+- Display refreshing delay changed, to avoid messing up with Docker logs
 
 ## Build
 ```
+# Build the docker image locally
 docker build -t ratio-spoof .
 ```
 
-## Docker compose
+## Run
+### Using a Docker command (recommended)
+Use the following command to run the container. Note this can be run multiple times (with a different name) to spoof multiple torrent files at the same time.
+```bash
+docker run ratio-spoof -d --name ratio-spoof --restart=unless-stopped --network=container:gluetun \
+-v $LOCAL_TORRENT_FOLDER:/torrents \
+-p $QBIT_PORT \
+-t /torrents/filename.torrent \
+-d 100% -ds 50kbps -u 100% -us 750kbps \
+-c qbit-4.3.3
+```
+
+
+### Docker compose
 Variables should be defined in a configuration file such as `.env`.
 ```
 ratio-spoof:
@@ -32,6 +36,25 @@ ratio-spoof:
       -d 90% -ds 1mbps -u 100% -us 1mbps -c qbit-4.3.3
     network_mode: "service:gluetun"
 ```
+
+***
+**ORIGINAL DOCUMENTATION STARTS HERE**
+***
+# ratio-spoof
+Ratio-spoof is a cross-platform, free and open source tool to spoof the download/upload amount on private bittorrent trackers.
+
+![](./assets/demo.gif)
+
+## Motivation
+Here in Brazil, not everybody has a great upload speed, and most private trackers require a ratio greater than or equal to 1. For example, if you downloaded 1GB, you must also upload 1GB in order to survive. Additionally, I have always been fascinated by the BitTorrent protocol. In fact, [I even made a BitTorrent web client to learn more about it](https://github.com/ap-pauloafonso/rwTorrent). So, if you have a bad internet connection, feel free to use this tool. Otherwise, please consider seeding the files with a real torrent client.
+
+## How does it work?
+![Diagram](./assets/how-it-works.png)
+Bittorrent protocol works in such a way that there is no way that a tracker knows how much certain peer have downloaded or uploaded, so the tracker depends on the peer itself telling the amounts.
+
+Ratio-spoof acts like a normal bittorrent client but without downloading or uploading anything, in fact it just tricks the tracker pretending that.
+
+
 
 ## Usage
 ```
