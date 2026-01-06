@@ -12,6 +12,27 @@ Bittorrent protocol works in such a way that there is no way that a tracker know
 
 Ratio-spoof acts like a normal bittorrent client but without downloading or uploading anything, in fact it just tricks the tracker pretending that.
 
+## Build
+```
+docker build -t ratio-spoof .
+```
+
+## Docker compose
+Variables should be defined in a configuration file such as `.env`.
+```
+ratio-spoof:
+    image: ratio-spoof
+    container_name: ratio-spoof
+    restart: unless-stopped
+    volumes:
+      - ${YOUR_TORRENTS_FOLDER}:/torrents
+    command: >
+      -p ${VPN_PORT_FORWARDING}
+      -t /torrents/your-torrent-file.torrent
+      -d 90% -ds 1mbps -u 100% -us 1mbps -c qbit-4.3.3
+    network_mode: "service:gluetun"
+```
+
 ## Usage
 ```
 usage: 
