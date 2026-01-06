@@ -18,11 +18,10 @@ func PrintState(state *ratiospoof.RatioSpoof) {
 			break
 		}
 		width := terminalSize()
-		clear()
 
 		if state.AnnounceCount == 1 {
 			println("Trying to connect to the tracker...")
-			time.Sleep(1 * time.Second)
+			time.Sleep(60 * time.Second)
 			continue
 		}
 		if state.AnnounceHistory.Len() > 0 {
