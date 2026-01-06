@@ -21,7 +21,7 @@ func PrintState(state *ratiospoof.RatioSpoof) {
 
 		if state.AnnounceCount == 1 {
 			println("Trying to connect to the tracker...")
-			time.Sleep(60 * time.Second)
+			time.Sleep(1 * time.Second)
 			continue
 		}
 		if state.AnnounceHistory.Len() > 0 {
@@ -69,7 +69,7 @@ func PrintState(state *ratiospoof.RatioSpoof) {
 				fmt.Printf("\n%s\n", center("  DEBUG  ", width-len("  DEBUG  "), "#"))
 				fmt.Printf("\n%s\n\n%s", state.Tracker.LastAnounceRequest, state.Tracker.LastTackerResponse)
 			}
-			time.Sleep(1 * time.Second)
+			time.Sleep(60 * time.Second)
 		}
 	}
 }
